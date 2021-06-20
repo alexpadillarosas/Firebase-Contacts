@@ -67,7 +67,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Search"/>
                                 <connections>
-                                    <action selector="searchContactg:" destination="BYZ-38-t0r" eventType="touchUpInside" id="x4t-e4-ach"/>
+                                    <action selector="searchContact:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8ni-6j-eXk"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ys2-KY-XT9">

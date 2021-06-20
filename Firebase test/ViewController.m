@@ -17,8 +17,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.ref = [[FIRDatabase database] reference];
     
+    //get a reference to our firebase database, then we can manipulate the data
+    self.ref = [[FIRDatabase database] reference];
+
 }
 
 - (IBAction)saveContact:(id)sender {
@@ -30,7 +32,32 @@
         NSString* cEmail = [[self emailTextField] text];
         NSString* cPhone = [[self phoneTextField] text];
         NSString* cPosition = [[self positionTextField] text];
+        
+        //in our database(represented by ref) we find a reference to the "contacts" collection, then in the collection we find a child
+        //once we get the reference to the collection, we will find a reference to a specific child of the "contacts" collection, this child will be identified by the contact id, as we will insert new data, that reference won't exist, so if we set values to the child element, those will be stored as a child (element) of the "contacts" collection
+        /*
+         remember this is how our collection looks like:
+         {
+           "contacts": {
+               "1" : {
+                 "email" : "gary@blueradix.com",
+                 "name" : "Gary Edwards",
+                 "phone" : "0487656567",
+                 "position" : "Web Developer"
+               },
+               "2" : {
+                 "email" : "rebecca@blueradix.com",
+                 "name" : "Rebecca Edwards",
+                 "phone" : "0989878789",
+                 "position" : "HR"
+               }
+           }
+         }
          
+         where 1 and 2 are childs of the contacts' collection
+         
+         */
+        
         [[[self.ref child:@"contacts"] child:cId]
         setValue:@{
             @"name": cName,
@@ -64,13 +91,13 @@
     
 }
     
-- (IBAction)searchContactg:(id)sender {
+- (IBAction)searchContact:(id)sender {
     //get the ID typed by the user, we are going to search the info related to that ID
     NSString* contactId = [[self idTextField] text];
-    
+    // in this case we are going to read data once.
+    // we won't be listening for any changes that happens in the database, until we read the data again.
     [[[_ref child:@"contacts"] child:contactId] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
-      // Get user value
-//      User *user = [[User alloc] initWithUsername:snapshot.value[@"username"]];
+      // Get user contact values
         NSString *name = snapshot.value[@"name"];
         NSString *email = snapshot.value[@"email"];
         NSString *phone = snapshot.value[@"phone"];
@@ -95,15 +122,16 @@
         
         if([cId length] == 0){
             [self showUIAlertWithMessage:@"You must provide the contact ID" andTitle:@"Contact Delete Failed"];
-        }
+        }else{
         
-//        [[[self.ref child:@"contacts"] child:cId] removeValue];
-        //get a reference to the document in the db by using the contact ID
-        FIRDatabaseReference* childReference = [[self.ref child:@"contacts"] child:cId];
-        //remove that reference.
-        [childReference removeValue];
-         
-        [self showUIAlertWithMessage:@"Contact Deleted" andTitle:@"Delete"];
+            //[[self.ref child:@"contacts"] child:cId] removeValue];
+            //get a reference to the document in the db by using the contact ID
+            FIRDatabaseReference* childReference = [[self.ref child:@"contacts"] child:cId];
+            //remove that reference.
+            [childReference removeValue];
+             
+            [self showUIAlertWithMessage:@"Contact Deleted" andTitle:@"Delete"];
+        }
     } @catch (NSException *exception) {
         [self showUIAlertWithMessage:@"The contact was not deleted" andTitle:@"Delete"];
     } @finally {
