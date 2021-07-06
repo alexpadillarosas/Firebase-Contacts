@@ -9,6 +9,12 @@
 
 @interface ViewController ()
 
+@property (weak, nonatomic) IBOutlet UITextField *idTextField;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
+@property (weak, nonatomic) IBOutlet UITextField *positionTextField;
+
 
 @end
 
@@ -94,24 +100,30 @@
 - (IBAction)searchContact:(id)sender {
     //get the ID typed by the user, we are going to search the info related to that ID
     NSString* contactId = [[self idTextField] text];
-    // in this case we are going to read data once.
-    // we won't be listening for any changes that happens in the database, until we read the data again.
-    [[[_ref child:@"contacts"] child:contactId] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
-      // Get user contact values
-        NSString *name = snapshot.value[@"name"];
-        NSString *email = snapshot.value[@"email"];
-        NSString *phone = snapshot.value[@"phone"];
-        NSString *position = snapshot.value[@"position"];
-        
-        [[self emailTextField] setText:email];
-        [[self nameTextField] setText:name];
-        [[self phoneTextField] setText:phone];
-        [[self positionTextField] setText:position];
-      // ...
-    } withCancelBlock:^(NSError * _Nonnull error) {
-      NSLog(@"%@", error.localizedDescription);
-    }];
     
+    NSString* cId = [[self idTextField] text];
+    
+    if([cId length] == 0){
+        [self showUIAlertWithMessage:@"You must provide the contact ID to search for" andTitle:@"Contact Search Failed"];
+    }else{
+        // in this case we are going to read data once.
+        // we won't be listening for any changes that happens in the database, until we read the data again.
+        [[[_ref child:@"contacts"] child:contactId] observeSingleEventOfType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+          // Get user contact values
+            NSString *name = snapshot.value[@"name"];
+            NSString *email = snapshot.value[@"email"];
+            NSString *phone = snapshot.value[@"phone"];
+            NSString *position = snapshot.value[@"position"];
+            
+            [[self emailTextField] setText:email];
+            [[self nameTextField] setText:name];
+            [[self phoneTextField] setText:phone];
+            [[self positionTextField] setText:position];
+          // ...
+        } withCancelBlock:^(NSError * _Nonnull error) {
+          NSLog(@"%@", error.localizedDescription);
+        }];
+    }
 }
 
 

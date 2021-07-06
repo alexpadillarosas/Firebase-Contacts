@@ -90,11 +90,11 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
-                        <outlet property="IdTextField" destination="a2B-aX-UZb" id="4iD-iP-PhH"/>
-                        <outlet property="emailTextField" destination="6TX-xx-iVK" id="aQW-7j-4l9"/>
-                        <outlet property="nameTextField" destination="ngZ-Wc-hs8" id="jlL-ZU-Xet"/>
-                        <outlet property="phoneTextField" destination="ZXU-hc-Y4T" id="gvO-Zs-aib"/>
-                        <outlet property="positionTextField" destination="BSo-Eo-MpG" id="NL0-9K-aPw"/>
+                        <outlet property="emailTextField" destination="6TX-xx-iVK" id="6Ly-gn-OVA"/>
+                        <outlet property="idTextField" destination="a2B-aX-UZb" id="15W-T0-0QY"/>
+                        <outlet property="nameTextField" destination="ngZ-Wc-hs8" id="qCW-pP-Uc0"/>
+                        <outlet property="phoneTextField" destination="ZXU-hc-Y4T" id="3Jh-G3-Dak"/>
+                        <outlet property="positionTextField" destination="BSo-Eo-MpG" id="6ja-Pa-0RN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
