@@ -33,11 +33,11 @@
     
     @try {
         
-        NSString* cId = [[self idTextField] text];
-        NSString* cName = [[self nameTextField] text];
-        NSString* cEmail = [[self emailTextField] text];
-        NSString* cPhone = [[self phoneTextField] text];
-        NSString* cPosition = [[self positionTextField] text];
+        NSString* contactId = [[self idTextField] text];
+        NSString* contactName = [[self nameTextField] text];
+        NSString* contactEmail = [[self emailTextField] text];
+        NSString* contactPhone = [[self phoneTextField] text];
+        NSString* contactPosition = [[self positionTextField] text];
         
         //in our database(represented by ref) we find a reference to the "contacts" collection, then in the collection we find a child
         //once we get the reference to the collection, we will find a reference to a specific child of the "contacts" collection, this child will be identified by the contact id, as we will insert new data, that reference won't exist, so if we set values to the child element, those will be stored as a child (element) of the "contacts" collection
@@ -64,12 +64,12 @@
          
          */
         
-        [[[self.ref child:@"contacts"] child:cId]
+        [[[self.ref child:@"contacts"] child:contactId]
         setValue:@{
-            @"name": cName,
-            @"email": cEmail,
-            @"phone": cPhone,
-            @"position": cPosition
+            @"name": contactName,
+            @"email": contactEmail,
+            @"phone": contactPhone,
+            @"position": contactPosition
         }];
         [self showUIAlertWithMessage:@"Contact Saved" andTitle:@"Save"];
     } @catch (NSException *exception) {
@@ -101,9 +101,7 @@
     //get the ID typed by the user, we are going to search the info related to that ID
     NSString* contactId = [[self idTextField] text];
     
-    NSString* cId = [[self idTextField] text];
-    
-    if([cId length] == 0){
+    if([contactId length] == 0){
         [self showUIAlertWithMessage:@"You must provide the contact ID to search for" andTitle:@"Contact Search Failed"];
     }else{
         // in this case we are going to read data once.
@@ -130,15 +128,15 @@
 - (IBAction)deleteContact:(id)sender {
     @try {
         
-        NSString* cId = [[self idTextField] text];
+        NSString* contactId = [[self idTextField] text];
         
-        if([cId length] == 0){
+        if([contactId length] == 0){
             [self showUIAlertWithMessage:@"You must provide the contact ID" andTitle:@"Contact Delete Failed"];
         }else{
         
             //[[self.ref child:@"contacts"] child:cId] removeValue];
             //get a reference to the document in the db by using the contact ID
-            FIRDatabaseReference* childReference = [[self.ref child:@"contacts"] child:cId];
+            FIRDatabaseReference* childReference = [[self.ref child:@"contacts"] child:contactId];
             //remove that reference.
             [childReference removeValue];
              
@@ -157,7 +155,7 @@
 -(void) showUIAlertWithMessage:(NSString*) message andTitle:(NSString*)title{
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction* okAction = [UIAlertAction actionWithTitle:@"Dismiss" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//            NSLog(@"You have saved the planet");
+            
         }];
         [alert addAction:okAction];
     
